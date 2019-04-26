@@ -93,6 +93,9 @@ select film.title, language.name from film, language
 where language.name = 'English'
 and (film.title like 'Q%' or film.title like 'K%');
 
+
+
+
 -- 7b. Use subqueries to display all actors who appear in the film Alone Trip
 SELECT first_name, last_name, actor_id
 FROM actor
