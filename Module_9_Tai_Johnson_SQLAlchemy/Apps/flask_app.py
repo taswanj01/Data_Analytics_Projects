@@ -45,11 +45,14 @@ def home():
     f"<a href=\"/api/v1.0/precipitation\">Precipitation Data</a><br/>"
     f"<a href=\"/api/v1.0/stations\">Station Data</a><br/>"
     f"<a href=\"/api/v1.0/tobs\">TOBS Data</a><br/>"
-    f"<a href=\"/api/v1.0/<start>\">TOBS Data (Min, Max and Avg) \
-        for all dates greater than and equal to the start date. \
-        Enter your date at the end of the URL (YYYY-MM-DD)</a><br/>"
-
-    f"/api/v1.0/<start>/<end></br>"
+    f"<a href=\"/api/v1.0/<start_date>\">TOBS Data by date</a>(Min, Max and Avg) \
+        of all dates greater than and equal to the start date. \
+        Enter your desired date at the end of the URL (YYYY-MM-DD).\
+        Data dates range from 2010-01-01 to 2017-08-23<br/>"
+    f"<a href=\"/api/v1.0/<start_date>/<end_date>\">TOBS Data by dates</a>(Min, Max and Avg) \
+        of all dates between your start date and end date. \
+        Enter your desired dates at the end of the URL (YYYY-MM-DD/YYYY-MM-DD).\
+        Data dates range from 2010-01-01 to 2017-08-23<br/><br/>"
     )
     
 # 4. Define our routes and display user their options
@@ -97,28 +100,35 @@ def tobs():
 # Return a JSON list of the minimum temperature, the average temperature, 
 # and the max temperature for a given start or start-end range.
 
-@app.route("/api/v1.0/<start>")
+@app.route("/api/v1.0/<start_date>")
 # When given the start only, calculate TMIN, TAVG, and TMAX for 
 # all dates greater than and equal to the start date.
 
-def start(start):
+def start_date(start_date):
     print("Server received request for start date page...")
     session = Session(engine)
     tobs_start_date_only = (session.query(func.min(Measurement.tobs), func.max(Measurement.tobs),
                                    func.avg(Measurement.tobs))
-                                  .filter(Measurement.date >= start)
+                                  .filter(Measurement.date >= start_date)
                                   .all())
     
     return jsonify(tobs_start_date_only)
 
 
-@app.route("/api/v1.0/<start>/<end>")
+@app.route("/api/v1.0/<start_date>/<end_date>")
 # When given the start and the end date, 
 # calculate the TMIN, TAVG, and TMAX for dates between the start and end date inclusive.
 
-def end(start,end):
+def end(start_date,end_date):
     print("Server received request for start/end date page...")    
+    session = Session(engine)
+    tobs_start_date_end_date = (session.query(func.min(Measurement.tobs), func.max(Measurement.tobs),
+                                   func.avg(Measurement.tobs))
+                                  .filter(Measurement.date >= start_date)
+                                  .filter(Measurement.date <= end_date)
+                                  .all())
     
+    return jsonify(tobs_start_date_end_date)
 
 
 if __name__ == "__main__":
