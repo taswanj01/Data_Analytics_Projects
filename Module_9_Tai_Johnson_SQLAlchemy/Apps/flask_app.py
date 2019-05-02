@@ -1,32 +1,84 @@
-# 1. import Flask
+import numpy as np
+
+import sqlalchemy
+from sqlalchemy.ext.automap import automap_base
+from sqlalchemy.orm import Session
+from sqlalchemy import create_engine, func
+
 from flask import Flask, jsonify
 
-# 2. Create an app, being sure to pass __name__
+
+#################################################
+# Database Setup
+#################################################
+engine = create_engine("sqlite:///../Resources/hawaii.sqlite")
+
+# reflect an existing database into a new model
+Base = automap_base()
+# reflect the tables
+Base.prepare(engine, reflect=True)
+
+# Save reference to the tables
+Measurement = Base.classes.measurement
+Station = Base.classes.station
+
+# Create our session (link) from Pythonxd=ds  to the DB
+session = Session(engine)
+
+#################################################
+# Flask Setup
+#################################################
 app = Flask(__name__)
 
+#################################################
+# Flask Routes
+#################################################
 
-# 3. Define what to do when a user hits the index route
+# 3. Define what to do when a user hits the home page
+
 @app.route("/")
 def home():
     print("Server received request for 'Home' page...")
-    return "Here are the routes that are available\n" \
-            ""
+    return (
+    f"Here are the routes that are available<br/>"
+    f"Click the name of the route to go that route</br>"
+    f"<a href=\"/api/v1.0/precipitation\">Precipitation Data</a><br/>"
+    f"<a href=\"/api/v1.0/stations\">Station Data</a><br/>"
+    f"<a href=\"/api/v1.0/tobs\">TOBS Data</a><br/>"
+    f"<a href=\"/api/v1.0/<start>\">TOBS Data (Min, Max and Avg) (start date only)</a><br/>"
 
+    f"/api/v1.0/<start>/<end></br>"
+    )
+    
 # 4. Define our routes and display user their options
 
 @app.route("/api/v1.0/precipitation")
 # Convert the query results to a Dictionary using date as the key and prcp as the value.
 # Return the JSON representation of your dictionary.
-
 def precipitation():
+    print("Server received request for precipitation page...")
+    precip_query = (session.query(Measurement.date, Measurement.prcp)
+                          .filter(Measurement.date > '2016-08-23')
+                          .all())
+    precip_dict = {}
+    for date, measurement in precip_query:
+        precip_dict[date] = measurement
     
-
+    return jsonify(precip_dict)
+    
 
 @app.route("/api/v1.0/stations")
 # Return a JSON list of stations from the dataset.
 
 def stations():
-    
+    print("Server received request for stations page...")
+    stations_counts = list(session.query(Measurement.station)\
+                                     .group_by(Measurement.station)\
+                                     .all())
+    stations_counts_list = []
+    for station in stations_counts:
+        stations_counts_list.append(station[0])
+    return jsonify(stations_counts_list)
 
 
 @app.route("/api/v1.0/tobs")
@@ -34,7 +86,11 @@ def stations():
 # Return a JSON list of Temperature Observations (tobs) for the previous year.
 
 def tobs():
-
+    print("Server received request for tobs page...")
+    last_12_months_of_tobs_data = (session.query(Measurement.date, Measurement.tobs)
+                                    .filter(Measurement.date > '2016-08-23')
+                                    .all())
+    return jsonify(last_12_months_of_tobs_data)
 
 # Return a JSON list of the minimum temperature, the average temperature, 
 # and the max temperature for a given start or start-end range.
@@ -44,13 +100,22 @@ def tobs():
 # all dates greater than and equal to the start date.
 
 def start(start):
-    
+    print("Server received request for start date page...")
+    start_date = input("Enter the date you'd like see Temperature Min, Max and Avg")
+    tobs_start_date_only = (session.query(func.min(Measurement.tobs), func.max(Measurement.tobs),
+                                   func.avg(Measurement.tobs))
+                                  .filter(Measurement.date >= start_date)
+                                  .all())
+    return jsonify(tobs_start_date_only)
+
+
 
 @app.route("/api/v1.0/<start>/<end>")
 # When given the start and the end date, 
 # calculate the TMIN, TAVG, and TMAX for dates between the start and end date inclusive.
 
 def end(start,end):
+    print("Server received request for start/end date page...")    
     
 
 
