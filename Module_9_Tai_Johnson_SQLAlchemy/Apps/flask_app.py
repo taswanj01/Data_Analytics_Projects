@@ -45,7 +45,9 @@ def home():
     f"<a href=\"/api/v1.0/precipitation\">Precipitation Data</a><br/>"
     f"<a href=\"/api/v1.0/stations\">Station Data</a><br/>"
     f"<a href=\"/api/v1.0/tobs\">TOBS Data</a><br/>"
-    f"<a href=\"/api/v1.0/<start>\">TOBS Data (Min, Max and Avg) (start date only)</a><br/>"
+    f"<a href=\"/api/v1.0/<start>\">TOBS Data (Min, Max and Avg) \
+        for all dates greater than and equal to the start date. \
+        Enter your date at the end of the URL (YYYY-MM-DD)</a><br/>"
 
     f"/api/v1.0/<start>/<end></br>"
     )
@@ -101,13 +103,13 @@ def tobs():
 
 def start(start):
     print("Server received request for start date page...")
-    start_date = input("Enter the date you'd like see Temperature Min, Max and Avg")
+    session = Session(engine)
     tobs_start_date_only = (session.query(func.min(Measurement.tobs), func.max(Measurement.tobs),
                                    func.avg(Measurement.tobs))
-                                  .filter(Measurement.date >= start_date)
+                                  .filter(Measurement.date >= start)
                                   .all())
+    
     return jsonify(tobs_start_date_only)
-
 
 
 @app.route("/api/v1.0/<start>/<end>")
