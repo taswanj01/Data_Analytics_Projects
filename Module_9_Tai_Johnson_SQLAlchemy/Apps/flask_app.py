@@ -62,6 +62,7 @@ def home():
 # Return the JSON representation of your dictionary.
 def precipitation():
     print("Server received request for precipitation page...")
+    session = Session(engine)
     precip_query = (session.query(Measurement.date, Measurement.prcp)
                           .filter(Measurement.date > '2016-08-23')
                           .all())
@@ -77,6 +78,7 @@ def precipitation():
 
 def stations():
     print("Server received request for stations page...")
+    session = Session(engine)
     stations_counts = list(session.query(Measurement.station)\
                                      .group_by(Measurement.station)\
                                      .all())
@@ -92,6 +94,7 @@ def stations():
 
 def tobs():
     print("Server received request for tobs page...")
+    session = Session(engine)
     last_12_months_of_tobs_data = (session.query(Measurement.date, Measurement.tobs)
                                     .filter(Measurement.date > '2016-08-23')
                                     .all())
