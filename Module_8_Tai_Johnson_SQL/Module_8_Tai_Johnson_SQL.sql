@@ -12,8 +12,9 @@ select actor_id, first_name, last_name from actor where first_name = 'Joe';
 -- 2b. Find all actors whose last name contain the letters GEN
 select first_name, last_name from actor where last_name like '%GEN%';
 
--- 2c. Find all actors whose last names contain the letters LI. This time, order the rows by last name and first name, in that order:
-select last_name, first_name  from actor where last_name like '%LI%';
+## REVISED ## -- 2c. Find all actors whose last names contain the letters LI. 
+--  This time, order the rows by last name and first name, in that order:
+select first_name, last_name from actor where last_name like '%LI%';
 
 -- 2d. Using IN, display the country_id and country columns of the following countries: Afghanistan, Bangladesh, and China:
 select country_id, country from country where country in ('Afghanistan', 'Bangladesh', 'China');
@@ -31,11 +32,11 @@ select last_name, count(last_name) from actor group by last_name;
 --     but only for names that are shared by at least two actors
 select last_name, count(last_name) from actor group by last_name having count(last_name) > 1; 
 
--- 4c. The actor HARPO WILLIAMS was accidentally entered in the actor table as GROUCHO WILLIAMS. Write a query to fix the record.
-update actor set first_name = 'GROUCHO' where first_name = 'HARPO';
+## REVISED -- 4c. The actor HARPO WILLIAMS was accidentally entered in the actor table as GROUCHO WILLIAMS. Write a query to fix the record.
+update actor set first_name = 'HARPO' where first_name = 'GROUCHO' AND last_name = 'WILLIAMS';
 
--- 4d. In a single query, if the first name of the actor is currently HARPO, change it to GROUCHO
-update actor set first_name = 'HARPO' where first_name = 'GROUCHO';
+## REVISED -- 4d. In a single query, if the first name of the actor is currently HARPO, change it to GROUCHO
+update actor set first_name = 'GROUCHO' where first_name = 'HARPO' AND last_name = 'WILLIAMS';
 
 -- 5a. You cannot locate the schema of the address table. Which query would you use to re-create it?
 show create table address;
@@ -60,10 +61,11 @@ select staff.first_name, staff.last_name, address.address
 from staff
 join address on address.address_id=staff.address_id;
 
--- 6b. Use JOIN to display the total amount rung up by each staff member in August of 2005. Use tables staff and payment
+## REVISED -- 6b. Use JOIN to display the total amount rung up by each staff member in August of 2005. Use tables staff and payment
 select staff.first_name, staff.last_name, sum(payment.amount) as 'total amount rung up' from payment
 join staff
 on payment.staff_id=staff.staff_id
+where payment.payment_date < "2005-08-31 23:59:59" and payment.payment_date > "2005-08-01 00:00:00"
 group by staff.first_name;
 
 -- 6c. List each film and the number of actors who are listed for that film. Use tables film_actor and film. Use inner join
@@ -86,15 +88,21 @@ on payment.customer_id=customer.customer_id
 group by customer.last_name
 order by customer.last_name;
 
--- 7a. The music of Queen and Kris Kristofferson have seen an unlikely resurgence. As an unintended consequence,
+## REVISED -- 7a. The music of Queen and Kris Kristofferson have seen an unlikely resurgence. As an unintended consequence,
 --     films starting with the letters K and Q have also soared in popularity. Use subqueries to display the titles
 --     of movies starting with the letters K and Q whose language is English
-select film.title, language.name from film, language
-where language.name = 'English'
-and (film.title like 'Q%' or film.title like 'K%');
-
-
-
+-- Old ver. pulling language name without using subqueries
+	-- select film.title, language.name from film, language
+	-- where language.name = 'English'
+	-- and (film.title like 'Q%' or film.title like 'K%');
+select film.title
+from film
+where film.title like 'Q%' or film.title like 'K%' and language_id IN
+	(
+	select language_id
+	from language
+	where name = 'English'
+	);
 
 -- 7b. Use subqueries to display all actors who appear in the film Alone Trip
 SELECT first_name, last_name, actor_id
