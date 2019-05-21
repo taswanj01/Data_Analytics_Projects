@@ -14,7 +14,7 @@ select first_name, last_name from actor where last_name like '%GEN%';
 
 ## REVISED ## -- 2c. Find all actors whose last names contain the letters LI.
 --  This time, order the rows by last name and first name, in that order:
-select last_name, first_name from actor where last_name like '%LI%';
+select first_name, last_name from actor where last_name like '%LI%' order by last_name, first_name;
 
 -- 2d. Using IN, display the country_id and country columns of the following countries: Afghanistan, Bangladesh, and China:
 select country_id, country from country where country in ('Afghanistan', 'Bangladesh', 'China');
