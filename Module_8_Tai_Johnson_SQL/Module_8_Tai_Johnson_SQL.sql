@@ -9,12 +9,12 @@ select concat_ws(' ', upper(first_name), upper(last_name)) as Actor_Name from ac
 -- 2a. You need to find the ID number, first name, and last name of an actor, of whom you know only the first name, "Joe."
 select actor_id, first_name, last_name from actor where first_name = 'Joe';
 
--- 2b. Find all actors whose last name contain the letters GEN
+-- 2b. Find all actors whose last name contain the letters GEN:
 select first_name, last_name from actor where last_name like '%GEN%';
 
-## REVISED ## -- 2c. Find all actors whose last names contain the letters LI. 
+## REVISED ## -- 2c. Find all actors whose last names contain the letters LI.
 --  This time, order the rows by last name and first name, in that order:
-select first_name, last_name from actor where last_name like '%LI%';
+select last_name, first_name from actor where last_name like '%LI%';
 
 -- 2d. Using IN, display the country_id and country columns of the following countries: Afghanistan, Bangladesh, and China:
 select country_id, country from country where country in ('Afghanistan', 'Bangladesh', 'China');
