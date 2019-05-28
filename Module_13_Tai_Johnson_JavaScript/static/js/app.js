@@ -73,4 +73,4 @@ function filter_by_date(filter_date) {
 
     afterThead = document.getElementsByTagName('thead');
     afterThead[0].insertAdjacentHTML("afterend", k);
-}
+};
