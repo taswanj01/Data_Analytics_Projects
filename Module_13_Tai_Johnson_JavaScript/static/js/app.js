@@ -1,36 +1,31 @@
-var filter_date = "";
-
 date_conversion();
 
-var k = '<tbody>';
 all_data();
 
-filter_date = document.getElementById("datetime").value;
+
+var filter_date = document.getElementById("datetime").value;
 console.log(`filter date is ${filter_date}`);
-
-
 
 
 //########      HELPER FUNCTIONS       ########//
 
 
-// Helper function for loading all data
+// Helper function for loading all data on page opening or refreshing
 function all_data(){
-    data.forEach((object) => {
-        k += '<tr>';
-        k += '<td>' + object.datetime + '</td>';
-        k += '<td>' + object.city + '</td>';
-        k += '<td>' + object.state + '</td>';
-        k += '<td>' + object.country + '</td>';
-        k += '<td>' + object.shape + '</td>';
-        k += '<td>' + object.durationMinutes + '</td>';
-        k += '<td>' + object.comments + '</td>';
-        k += '</tr>';
+    var tbody = d3.select("tbody");
+
+    data.forEach(object => {
+        tbody.append("tr");
+      });
+
+    data.forEach(object => {
+    var tr = tbody.append("tr");  
+    Object 
+      .values(object)
+      .forEach((object) => {
+        tr.append("td").text(object);
     });
-    k += '</tbody>';
-    
-    afterThead = document.getElementsByTagName('thead');
-    afterThead[0].insertAdjacentHTML("afterend", k);
+  });
 };
 
 
@@ -46,8 +41,8 @@ function date_conversion(){
 };
 
 
-// Helper function that displays the data based on the users input in the date picker field
-// resets to show all data if date picker is reset
+// Helper function that displays the data based on the users input in the date pictdataer field
+// resets to show all data if date pictdataer is reset
 function filter_by_date(filter_date) {
     filter_date = document.getElementById("datetime").value;
     console.log(filter_date);
@@ -55,22 +50,22 @@ function filter_by_date(filter_date) {
     var child = document.getElementsByTagName("tbody");
     child[0].parentNode.removeChild(child[0]);    
 
-    k = '<tbody>'
+    tdata = '<tbody>'
     data.forEach((object) => {
         if(object.datetime == filter_date) {
-            k += '<tr>';
-            k += '<td>' + object.datetime + '</td>';
-            k += '<td>' + object.city + '</td>';
-            k += '<td>' + object.state + '</td>';
-            k += '<td>' + object.country + '</td>';
-            k += '<td>' + object.shape + '</td>';
-            k += '<td>' + object.durationMinutes + '</td>';
-            k += '<td>' + object.comments + '</td>';
-            k += '</tr>';
+            tdata += '<tr>';
+            tdata += '<td>' + object.datetime + '</td>';
+            tdata += '<td>' + object.city + '</td>';
+            tdata += '<td>' + object.state + '</td>';
+            tdata += '<td>' + object.country + '</td>';
+            tdata += '<td>' + object.shape + '</td>';
+            tdata += '<td>' + object.durationMinutes + '</td>';
+            tdata += '<td>' + object.comments + '</td>';
+            tdata += '</tr>';
         };    
     });
-    k += '</tbody>';
+    tdata += '</tbody>';
 
     afterThead = document.getElementsByTagName('thead');
-    afterThead[0].insertAdjacentHTML("afterend", k);
+    afterThead[0].insertAdjacentHTML("afterend", tdata);
 };
