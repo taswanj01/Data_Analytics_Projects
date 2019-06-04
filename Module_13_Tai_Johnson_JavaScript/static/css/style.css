@@ -64,6 +64,11 @@
   .filters {
     margin-top: 10px;
   }
+
+  #filter-btn {
+    margin-right: 4rem;
+    margin-bottom: 1rem;
+  }
   
   select {
     display: block;
