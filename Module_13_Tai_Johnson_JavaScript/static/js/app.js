@@ -1,4 +1,5 @@
-date_conversion();
+
+filtersSetup();
 
 all_data();
 
@@ -13,32 +14,17 @@ function onlyUnique(value, index, self) {
 // Helper function for loading all data 
 // and fill filter options choices on page opening or refreshing
 function all_data() {
-    //Lists to get unique values to populate filters
-    var citiesList = [];  
-    var statesList = [];
-    var countryList = [];
-    var shapesList = [];
-
-    //Selections for neccessary elements
+    
+    //Select the table body
     var tbody = d3.select("tbody");
-    var selects_clear = d3.selectAll("select");
-    var citySelectInputs = d3.select("#citySelect");
-    var stateSelectInputs = d3.select("#stateSelect");
-    var countrySelectInputs = d3.select("#countrySelect");
-    var shapeSelectInputs = d3.select("#shapeSelect");
-
-    //Clearing data so not to concatenate on each filter occurence
+    
+    //Clear data so not to concatenate on each filter occurence
     tbody.html("");
-    selects_clear.html("");
 
-    //Add all values to respective lists and fill in table row elements
+    //Iterate through the data list and append rows
     data.forEach(object => {
         var tr = tbody.append("tr");
-        citiesList.push(object.city);
-        statesList.push(object.state);
-        countryList.push(object.country);
-        shapesList.push(object.shape);
-
+        
         //Fill in data for initial table of full data set
         Object
             .values(object)
@@ -46,8 +32,35 @@ function all_data() {
                 tr.append("td").text(object);
             });
     });
+};
 
-    //Filter unique values from values lists
+// Helper function that setups and fills in options for filters
+function filtersSetup (){
+
+    var datesList = []; 
+    var citiesList = [];  
+    var statesList = [];
+    var countryList = [];
+    var shapesList = [];
+
+    var dateSelectInputs = d3.select("#dateSelect");
+    var citySelectInputs = d3.select("#citySelect");
+    var stateSelectInputs = d3.select("#stateSelect");
+    var countrySelectInputs = d3.select("#countrySelect");
+    var shapeSelectInputs = d3.select("#shapeSelect");
+
+    data.forEach(object => {
+        datesList.push(object.datetime);
+        citiesList.push(object.city);
+        statesList.push(object.state);
+        countryList.push(object.country);
+        shapesList.push(object.shape);
+
+    });
+
+    // We only need unique options for the filters
+    var uniqueDatesList = datesList.filter(onlyUnique);
+    uniqueDatesList.sort();
     var uniqueCitiesList = citiesList.filter(onlyUnique);
     uniqueCitiesList.sort();
     var uniqueStatesList = statesList.filter(onlyUnique);
@@ -58,6 +71,7 @@ function all_data() {
     uniqueShapesList.sort();
 
     //Fill in options for filters
+    uniqueDatesList.forEach(item => dateSelectInputs.append("option").text(item));
     uniqueCitiesList.forEach(item => citySelectInputs.append("option").text(item));
     uniqueStatesList.forEach(item => stateSelectInputs.append("option").text(item));
     uniqueCountryList.forEach(item => countrySelectInputs.append("option").text(item));
@@ -65,29 +79,15 @@ function all_data() {
 
 };
 
-
-// Helper function for converting dates into ISO format
-function date_conversion() {
-    data.forEach((object) => {
-        var date_conversion = object.datetime.split("/");
-        if (parseInt(date_conversion[1]) < 10) { date_conversion[1] = "0" + date_conversion[1] };
-        if (parseInt(date_conversion[0]) < 10) { date_conversion[0] = "0" + date_conversion[0] };
-        object.datetime = date_conversion[2] + "-" +
-            date_conversion[0] + "-" + date_conversion[1];
-    });
-};
-
-
-// Helper function that displays the data based on the users input in the date picker field
-function filter_by_date() {
+// Helper function to filter by city of user choice
+function filterByDate() {
     var tbody = d3.select("tbody");
     tbody.html("");
-
-    var filter_by_date_element = d3.select("#datetime");
-    var filter_by_date = filter_by_date_element.property("value");
+    
+    var filterByDateChoice = d3.select("#dateSelect").property("value");
 
     data.forEach(object => {
-        if(object.datetime == filter_by_date) {
+        if(object.datetime == filterByDateChoice) {
             var tr = tbody.append("tr");
             Object
                 .values(object)
@@ -97,6 +97,7 @@ function filter_by_date() {
         };        
     });
 };
+
 
 // Helper function to filter by city of user choice
 function filterByCity() {
@@ -161,7 +162,7 @@ function filterByShape() {
     var tbody = d3.select("tbody");
     tbody.html("");
 
-    var filterByShapeChoice = d3.select("#countrySelect").property("value");
+    var filterByShapeChoice = d3.select("#shapeSelect").property("value");
 
     data.forEach(object => {
         if(object.shape == filterByShapeChoice) {

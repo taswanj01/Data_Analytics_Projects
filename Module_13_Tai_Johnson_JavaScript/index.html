@@ -34,15 +34,9 @@
               <div class="panel-body">
                 <form>
                   <div class="form-group">
-                    <ul class="list-group" id="filters">
-                      <li class="filter list-group-item">
-                        <label for="date">Enter a Date (Jan 1, 2010 - Jan 13, 2010)</label>
-                        <input type="date" class="form-control" id="datetime" 
-                        max="2010-01-13" min="2010-01-01" name="dateFilter">
-                      </li>
-                    </ul>
-                    <button id="filter-btn" type="button" class="btn btn-default" onclick="filter_by_date()">Date Filter</button>
-
+                    <label for="exampleSelect1">Filter by date</label>
+                    <select class="form-control" id="dateSelect" onchange="filterByDate()">
+                    </select>
                     <label for="exampleSelect1">Filter by city</label>
                     <select class="form-control" id="citySelect" onchange="filterByCity()">
                     </select>
@@ -56,32 +50,11 @@
                     <select class="form-control" id="shapeSelect" onchange="filterByShape()">
                     </select>
                   </div>
-                  
                   <button id="refresh-btn" type="button" class="btn btn-default" onclick="all_data()">Reset data</button>
                 </form>
               </div>
             </div>
           </aside>
-          <!-- <aside class="filters">
-            <div class="panel panel-default">
-              <div class="panel-heading">Filter Search</div>
-              <div class="panel-body">
-                <form>
-                  <div class="form-group">
-                    <ul class="list-group" id="filters">
-                      <li class="filter list-group-item">
-                        <label for="date">Enter a Date (Jan 1, 2010 - Jan 13, 2010)</label>
-                        <input type="date" class="form-control" id="datetime" 
-                        max="2010-01-13" min="2010-01-01" name="dateFilter">
-                      </li>
-                    </ul>
-                  </div>
-                  <button id="filter-btn" type="button" class="btn btn-default" onclick="filter_by_date()">Filter Table</button>
-                  <button id="refresh-btn" type="button" class="btn btn-default" onclick="all_data()">Reset data</button>
-                </form>
-              </div>
-            </div>
-          </aside> -->
         </div>
         <div class="col-md-10">
           <div id="table-area" class="">
