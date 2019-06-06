@@ -1,4 +1,6 @@
 
+date_conversion();
+
 filtersSetup();
 
 all_data();
@@ -11,8 +13,7 @@ function onlyUnique(value, index, self) {
     return self.indexOf(value) === index;
 }
 
-// Helper function for loading all data 
-// and fill filter options choices on page opening or refreshing
+// Function for loading all data 
 function all_data() {
     
     //Select the table body
@@ -78,6 +79,18 @@ function filtersSetup (){
     uniqueShapesList.forEach(item => shapeSelectInputs.append("option").text(item));
 
 };
+
+// Helper function for converting dates into ISO format
+function date_conversion() {
+    data.forEach((object) => {
+        var date_conversion = object.datetime.split("/");
+        if (parseInt(date_conversion[1]) < 10) { date_conversion[1] = "0" + date_conversion[1] };
+        if (parseInt(date_conversion[0]) < 10) { date_conversion[0] = "0" + date_conversion[0] };
+        object.datetime = date_conversion[2] + "-" +
+            date_conversion[0] + "-" + date_conversion[1];
+    });
+};
+
 
 // Helper function to filter by city of user choice
 function filterByDate() {
