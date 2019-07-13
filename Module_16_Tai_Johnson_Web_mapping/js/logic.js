@@ -64,17 +64,17 @@ d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_hour.geoj
   function getColor(magnitude) {
     switch (true) {
       case magnitude > 5:
-        return "#ea2c2c";
+        return "#EE0000";
       case magnitude > 4:
-        return "#ea822c";
+        return "#EE6F00";
       case magnitude > 3:
-        return "#ee9c00";
+        return "#EED700";
       case magnitude > 2:
-        return "#eecc00";
+        return "#8BEE00";
       case magnitude > 1:
-        return "#d4ee00";
+        return "#23EE00";
       default:
-        return "#98ee00";
+        return "#0059EE";
     }
   }
 
@@ -115,12 +115,12 @@ d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_hour.geoj
 
     var grades = [0, 1, 2, 3, 4, 5];
     var colors = [
-      "#98ee00",
-      "#d4ee00",
-      "#eecc00",
-      "#ee9c00",
-      "#ea822c",
-      "#ea2c2c"
+      "#0059EE",
+      "#23EE00",
+      "#8BEE00",
+      "#EED700",
+      "#EE6F00",
+      "#EE0000"
     ];
 
 
