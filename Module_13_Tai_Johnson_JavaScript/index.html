@@ -30,27 +30,28 @@
         <div class="col-md-2">
           <aside class="filters">
             <div class="panel panel-default">
-              <div class="panel-heading">Filter Search</div>
+              <div class="panel-heading">Set desired filters and hit Filter Data button. Leave blank for all</div>
               <div class="panel-body">
                 <form>
                   <div class="form-group">
                     <label for="exampleSelect1">Filter by date</label>
-                    <select class="form-control" id="dateSelect" onchange="filterByDate()">
+                    <select class="form-control" id="dateSelect" placeholder="">
                     </select>
                     <label for="exampleSelect1">Filter by city</label>
-                    <select class="form-control" id="citySelect" onchange="filterByCity()">
+                    <select class="form-control" id="citySelect" placeholder="">
                     </select>
                     <label for="exampleSelect1">Filter by state</label>
-                    <select class="form-control" id="stateSelect" onchange="filterByState()">
+                    <select class="form-control" id="stateSelect" placeholder="">
                     </select>
                     <label for="exampleSelect1">Filter by country</label>
-                    <select class="form-control" id="countrySelect" onchange="filterByCountry()">
+                    <select class="form-control" id="countrySelect" placeholder="">
                     </select>
                     <label for="exampleSelect1">Filter by shape</label>
-                    <select class="form-control" id="shapeSelect" onchange="filterByShape()">
+                    <select class="form-control" id="shapeSelect" placeholder="">
                     </select>
                   </div>
-                  <button id="refresh-btn" type="button" class="btn btn-default" onclick="all_data()">Reset data</button>
+                  <button id="refresh-btn" type="button" class="btn btn-default" onclick="user_filtered_data()">Filter Data</button>
+                  <button id="refresh-btn" type="button" class="btn btn-default" onclick="all_data()">All data</button>
                 </form>
               </div>
             </div>
@@ -72,7 +73,7 @@
               </thead>
               <tbody>
                 <!-- Script acts here -->
-                
+
               </tbody>
             </table>
           </div>
