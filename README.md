@@ -1,6 +1,3 @@
-# Data_Analytics_Homework
+# Data_Analytics_Projects
 
-Repo to store all homework for DU Data analytics class.
-
-"Test" commit comment is a mistake while working out multiple folder push issues. Files were already created up to Module 3 before 
-the reorg.
+This is a repo to store various projects worked up during my Data Analytics bootcamp course at Denver University. This repo is intended to display my abilities to use various programming technologies to accomplish different data analytics operations and goals.
