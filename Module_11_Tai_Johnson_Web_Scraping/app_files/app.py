@@ -14,7 +14,7 @@ def index():
     mars_data = mongo.db.mars_data.find_one()
     return render_template("index.html", mars_data=mars_data)
 
-
+# Define route to scrape for new data
 @app.route("/mars_scrape")
 def scraper():
     mars_data = mongo.db.mars_data
