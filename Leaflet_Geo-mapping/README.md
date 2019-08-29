@@ -1,0 +1,1 @@
+This project uses Leaflet and Geo Mapping to visualize up to date earthquake data from the United States Geological Survey
