@@ -1,3 +1,1 @@
-The site is located at https://taswanj01.github.io/WeatherData_web_project/
-
-This is web project using HTML, BootStrap and CSS to publish to the web my previous API project.
+This project is an app that uses Splinter, Flask, PyMongo and Pandas to gather web data from NASA, Twitter and other public websites to report to the user real-time facts and images about the planet Mars.
